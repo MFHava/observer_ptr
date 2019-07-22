@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(less_than_comparison) {
 
 BOOST_AUTO_TEST_CASE(hash) {
 	int i = 42;
-	auto op = boost::make_observer(&i);
+	boost::observer_ptr<int> op{&i};
 	BOOST_TEST(std::hash<boost::observer_ptr<int>>{}(op) == std::hash<int*>{}(op.get()));
 }
 
