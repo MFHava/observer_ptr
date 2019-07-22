@@ -5,7 +5,7 @@
 #          http://www.boost.org/LICENSE_1_0.txt)
 
 cmake_minimum_required(VERSION 3.13)
-project(ObserverPtr)
+project(Boost.ObserverPtr)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/static)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -34,8 +34,8 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	)
 endif()
 
-file(GLOB_RECURSE HEADERS "inc/*")
-file(GLOB_RECURSE TESTS "test/*")
+file(GLOB_RECURSE HEADERS "../include/*")
+file(GLOB_RECURSE TESTS "../test/*")
 add_executable(tests ${HEADERS} ${TESTS}) #including headers here to have them included in IDEs
-target_include_directories(tests PRIVATE "inc")
+target_include_directories(tests PRIVATE "../include")
 target_link_libraries(tests flags Boost::unit_test_framework)

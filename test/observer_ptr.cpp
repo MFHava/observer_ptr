@@ -6,7 +6,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <boost/core/demangle.hpp>
-#include "observer_ptr/observer_ptr.hpp"
+#include "boost/observer_ptr/observer_ptr.hpp"
 
 #include <string>
 #include <iomanip>
