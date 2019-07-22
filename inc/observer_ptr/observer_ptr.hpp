@@ -34,7 +34,7 @@ namespace boost {
 
 		template <typename W2, typename = typename std::enable_if<std::is_convertible<W2, W>::value>::type>
 		constexpr observer_ptr(observer_ptr<W2> other) noexcept
-			: ptr(other.ptr) {}
+			: ptr(other.get()) {}
 
 		constexpr pointer get() const noexcept {
 			return ptr;
