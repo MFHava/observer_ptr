@@ -29,7 +29,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 		/wd4458 # ignore class member shadowing
 		/wd4459 # ignore global shadowing
 	)
-	arget_link_options(flags INTERFACE
+	target_link_options(flags INTERFACE
 		/ignore:4099 # ignore mixing struct and class keyword for same type
 	)
 endif()
@@ -37,4 +37,5 @@ endif()
 file(GLOB_RECURSE HEADERS "inc/*")
 file(GLOB_RECURSE TESTS "test/*")
 add_executable(tests ${HEADERS} ${TESTS}) #including headers here to have them included in IDEs
+target_include_directories(tests PRIVATE "inc")
 target_link_libraries(tests flags Boost::unit_test_framework)
