@@ -122,24 +122,24 @@ namespace boost {
 		// from N4820:
 		//4 The composite pointer type of two operands p1 and p2 having types T1 and T2, respectively, where at least
 		//	one is a pointer or pointer - to - member type or std::nullptr_t, is:
-		//(4.1) — if both p1and p2 are null pointer constants, std::nullptr_t;
-		//(4.2) — if either p1 or p2 is a null pointer constant, T2 or T1, respectively;
-		//(4.3) — if T1 or T2 is “pointer to cv1 void” and the other type is “pointer to cv2 T”, where T is an object type
-		//	or void, “pointer to cv12 void”, where cv12 is the union of cv1and cv2;
-		//(4.4) — if T1 or T2 is “pointer to noexcept function” and the other type is “pointer to function”, where the
-		//	function types are otherwise the same, “pointer to function”;
-		//(4.5) — if T1 is “pointer to cv1 C1”and T2 is “pointer to cv2 C2”, where C1 is reference - related to C2 or C2 is
+		//(4.1) - if both p1and p2 are null pointer constants, std::nullptr_t;
+		//(4.2) - if either p1 or p2 is a null pointer constant, T2 or T1, respectively;
+		//(4.3) - if T1 or T2 is "pointer to cv1 void" and the other type is "pointer to cv2 T", where T is an object type
+		//	or void, "pointer to cv12 void", where cv12 is the union of cv1and cv2;
+		//(4.4) - if T1 or T2 is "pointer to noexcept function" and the other type is "pointer to function", where the
+		//	function types are otherwise the same, "pointer to function";
+		//(4.5) - if T1 is "pointer to cv1 C1" and T2 is "pointer to cv2 C2", where C1 is reference - related to C2 or C2 is
 		//	reference - related to C1(9.3.3), the cv - combined type of T1 and T2 or the cv - combined type of T2 and
 		//	T1, respectively;
-		//(4.6) — if T1 or T2 is “pointer to member of C1 of type function”, the other type is “pointer to member of C2 of
-		//	type noexcept function”, and C1 is reference - related to C1 or C2 is reference - related to C1(9.3.3), where
-		//	the function types are otherwise the same, “pointer to member of C2 of type function” or “pointer to
-		//	member of C1 of type function”, respectively;
-		//(4.7) — if T1 is “pointer to member of C1 of type cv1 U”and T2 is “pointer to member of C2 of type cv2 U”, for
+		//(4.6) - if T1 or T2 is "pointer to member of C1 of type function", the other type is "pointer to member of C2 of
+		//	type noexcept function", and C1 is reference - related to C1 or C2 is reference - related to C1(9.3.3), where
+		//	the function types are otherwise the same, "pointer to member of C2 of type function" or "pointer to
+		//	member of C1 of type function", respectively;
+		//(4.7) - if T1 is "pointer to member of C1 of type cv1 U" and T2 is "pointer to member of C2 of type cv2 U", for
 		//	some non - function type U, where C1 is reference - related to C2 or C2 is reference - related to C1(9.3.3),
 		//	the cv - combined type of T2 and T1 or the cv - combined type of T1 and T2, respectively;
-		//(4.8) — if T1and T2 are similar types(7.3.5), the cv - combined type of T1 and T2;
-		//(4.9) — otherwise, a program that necessitates the determination of a composite pointer type is ill - formed.
+		//(4.8) - if T1and T2 are similar types(7.3.5), the cv - combined type of T1 and T2;
+		//(4.9) - otherwise, a program that necessitates the determination of a composite pointer type is ill-formed.
 		using W3 = void*;
 		return std::less<W3>()(p1.get(), p2.get());
 	}
