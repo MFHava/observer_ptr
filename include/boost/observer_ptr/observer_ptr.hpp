@@ -26,7 +26,7 @@ namespace boost {
 		constexpr observer_ptr() noexcept
 			: ptr(nullptr) {}
 
-		constexpr observer_ptr(nullptr_t) noexcept
+		constexpr observer_ptr(std::nullptr_t) noexcept
 			: ptr(nullptr) {}
 
 		constexpr explicit observer_ptr(pointer other) noexcept
@@ -97,22 +97,22 @@ namespace boost {
 	}
 
 	template <typename W>
-	bool operator==(observer_ptr<W> p, nullptr_t) noexcept {
+	bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	bool operator==(nullptr_t, observer_ptr<W> p) noexcept {
+	bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	bool operator!=(observer_ptr<W> p, nullptr_t) noexcept {
+	bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return (bool)p;
 	}
 
 	template <typename W>
-	bool operator!=(nullptr_t, observer_ptr<W> p) noexcept {
+	bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return (bool)p;
 	}
 
@@ -121,8 +121,8 @@ namespace boost {
 		// TODO: where W3 is the composite pointer type (C++17 §8) of W1* and W2*.
 		// from N4820:
 		//4 The composite pointer type of two operands p1 and p2 having types T1 and T2, respectively, where at least
-		//	one is a pointer or pointer - to - member type or std::nullptr_t, is:
-		//(4.1) - if both p1and p2 are null pointer constants, std::nullptr_t;
+		//	one is a pointer or pointer - to - member type or std::std::nullptr_t, is:
+		//(4.1) - if both p1and p2 are null pointer constants, std::std::nullptr_t;
 		//(4.2) - if either p1 or p2 is a null pointer constant, T2 or T1, respectively;
 		//(4.3) - if T1 or T2 is "pointer to cv1 void" and the other type is "pointer to cv2 T", where T is an object type
 		//	or void, "pointer to cv12 void", where cv12 is the union of cv1and cv2;
@@ -168,5 +168,7 @@ namespace std {
 		}
 	};
 }
+
+//TODO: boost::hash support?
 
 #endif // #ifndef BOOST_OBSERVER_PTR_HPP_INCLUDED
