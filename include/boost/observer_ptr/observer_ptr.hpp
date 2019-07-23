@@ -108,12 +108,12 @@ namespace boost {
 
 	template <typename W>
 	bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
-		return (bool)p;
+		return static_cast<bool>(p);
 	}
 
 	template <typename W>
 	bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
-		return (bool)p;
+		return static_cast<bool>(p);
 	}
 
 	template <typename W1, typename W2>
