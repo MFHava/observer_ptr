@@ -18,8 +18,8 @@ namespace boost {
 	//  TODO: documentation
 	template <typename W>
 	class observer_ptr {
-		using pointer = std::add_pointer_t<W>;
-		using reference = std::add_lvalue_reference_t<W>;
+		using pointer = typename std::add_pointer<W>::type;
+		using reference = typename std::add_lvalue_reference<W>::type;
 	public:
 		using element_type = W;
 
