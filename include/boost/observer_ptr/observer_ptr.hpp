@@ -23,47 +23,47 @@ namespace boost {
 	public:
 		using element_type = W;
 
-		constexpr observer_ptr() noexcept =default;
+		BOOST_CXX14_CONSTEXPR observer_ptr() noexcept =default;
 
-		constexpr observer_ptr(std::nullptr_t) noexcept {}
+		BOOST_CXX14_CONSTEXPR observer_ptr(std::nullptr_t) noexcept {}
 
-		constexpr explicit observer_ptr(pointer other) noexcept : ptr(other) {}
+		BOOST_CXX14_CONSTEXPR explicit observer_ptr(pointer other) noexcept : ptr(other) {}
 
 		template <typename W2, typename = typename std::enable_if<std::is_convertible<W2, W>::value>::type>
-		constexpr observer_ptr(observer_ptr<W2> other) noexcept : ptr(other.get()) {}
+		BOOST_CXX14_CONSTEXPR observer_ptr(observer_ptr<W2> other) noexcept : ptr(other.get()) {}
 
-		constexpr pointer get() const noexcept {
+		BOOST_CXX14_CONSTEXPR pointer get() const noexcept {
 			return ptr;
 		}
 
-		constexpr reference operator*() const {//TODO noexcept here? AFAIK there is an exception to the Lakos Rule in the standard libraries smart pointers... (at least shared_ptr does)
+		BOOST_CXX14_CONSTEXPR reference operator*() const {//TODO noexcept here? AFAIK there is an exception to the Lakos Rule in the standard libraries smart pointers... (at least shared_ptr does)
 			BOOST_ASSERT(ptr != nullptr);
 			return *get();
 		}
 
-		constexpr pointer operator->() const noexcept {
+		BOOST_CXX14_CONSTEXPR pointer operator->() const noexcept {
 			return get();
 		}
 
-		constexpr explicit operator bool() const noexcept {
+		BOOST_CXX14_CONSTEXPR explicit operator bool() const noexcept {
 			return get() != nullptr;
 		}
 
-		constexpr explicit operator pointer() const noexcept {
+		BOOST_CXX14_CONSTEXPR explicit operator pointer() const noexcept {
 			return get();
 		}
 
-		constexpr pointer release() noexcept {
+		BOOST_CXX14_CONSTEXPR pointer release() noexcept {
 			auto p = ptr;
 			ptr = nullptr;
 			return p;
 		}
 
-		constexpr void reset(pointer p = nullptr) noexcept {
+		BOOST_CXX14_CONSTEXPR void reset(pointer p = nullptr) noexcept {
 			ptr = p;
 		}
 
-		constexpr void swap(observer_ptr& other) noexcept {
+		BOOST_CXX14_CONSTEXPR void swap(observer_ptr& other) noexcept {
 			using std::swap;
 			swap(ptr, other.ptr);
 		}
@@ -73,47 +73,47 @@ namespace boost {
 	};
 
 	template <typename W>
-	void swap(observer_ptr<W>& p1, observer_ptr<W>& p2) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR void swap(observer_ptr<W>& p1, observer_ptr<W>& p2) noexcept {
 		p1.swap(p2);
 	}
 
 	template <typename W>
-	observer_ptr<W> make_observer(W* p) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR observer_ptr<W> make_observer(W* p) noexcept {
 		return observer_ptr<W>{p};
 	}
 
 	template <typename W1, typename W2>
-	bool operator==(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO. constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator==(observer_ptr<W1> p1, observer_ptr<W2> p2) {
 		return p1.get() == p2.get();
 	}
 
 	template <typename W1, typename W2>
-	bool operator!=(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator!=(observer_ptr<W1> p1, observer_ptr<W2> p2) {
 		return !(p1 == p2);
 	}
 
 	template <typename W>
-	bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return static_cast<bool>(p);
 	}
 
 	template <typename W>
-	bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return static_cast<bool>(p);
 	}
 
 	template <typename W1, typename W2>
-	bool operator<(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator<(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		// TODO: where W3 is the composite pointer type (C++17 §8) of W1* and W2*.
 		// from N4820:
 		//4 The composite pointer type of two operands p1 and p2 having types T1 and T2, respectively, where at least one is a pointer or pointer-to-member type or std::std::nullptr_t, is:
@@ -135,17 +135,17 @@ namespace boost {
 	}
 
 	template <typename W1, typename W2>
-	bool operator>(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator>(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return p2 < p1;
 	}
 
 	template <typename W1, typename W2>
-	bool operator<=(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator<=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return !(p2 < p1);
 	}
 
 	template <typename W1, typename W2>
-	bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) {//TODO: constexpr missing?
+	BOOST_CXX14_CONSTEXPR bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return !(p1 < p2);
 	}
 }
@@ -153,7 +153,7 @@ namespace boost {
 namespace std {
 	template <typename T>
 	struct hash<boost::observer_ptr<T>> {
-		auto operator()(const boost::observer_ptr<T>& p) const -> std::size_t {//TODO: constexpr missing?
+		BOOST_CXX14_CONSTEXPR auto operator()(const boost::observer_ptr<T>& p) const noexcept -> std::size_t {
 			return std::hash<T*>{}(p.get());
 		}
 	};
