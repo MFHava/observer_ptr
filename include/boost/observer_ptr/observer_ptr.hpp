@@ -23,16 +23,16 @@ namespace boost {
 	public:
 		using element_type = W;
 
-		BOOST_CXX14_CONSTEXPR observer_ptr() noexcept =default;
+		constexpr observer_ptr() noexcept =default;
 
-		BOOST_CXX14_CONSTEXPR observer_ptr(std::nullptr_t) noexcept {}
+		constexpr observer_ptr(std::nullptr_t) noexcept {}
 
-		BOOST_CXX14_CONSTEXPR explicit observer_ptr(pointer other) noexcept : ptr(other) {}
+		constexpr explicit observer_ptr(pointer other) noexcept : ptr(other) {}
 
 		template <typename W2, typename = typename std::enable_if<std::is_convertible<W2, W>::value>::type>
-		BOOST_CXX14_CONSTEXPR observer_ptr(observer_ptr<W2> other) noexcept : ptr(other.get()) {}
+		constexpr observer_ptr(observer_ptr<W2> other) noexcept : ptr(other.get()) {}
 
-		BOOST_CXX14_CONSTEXPR pointer get() const noexcept {
+		constexpr pointer get() const noexcept {
 			return ptr;
 		}
 
@@ -41,15 +41,15 @@ namespace boost {
 			return *get();
 		}
 
-		BOOST_CXX14_CONSTEXPR pointer operator->() const noexcept {
+		constexpr pointer operator->() const noexcept {
 			return get();
 		}
 
-		BOOST_CXX14_CONSTEXPR explicit operator bool() const noexcept {
+		constexpr explicit operator bool() const noexcept {
 			return get() != nullptr;
 		}
 
-		BOOST_CXX14_CONSTEXPR explicit operator pointer() const noexcept {
+		constexpr explicit operator pointer() const noexcept {
 			return get();
 		}
 
@@ -78,42 +78,42 @@ namespace boost {
 	}
 
 	template <typename W>
-	BOOST_CXX14_CONSTEXPR observer_ptr<W> make_observer(W* p) noexcept {
+	constexpr observer_ptr<W> make_observer(W* p) noexcept {
 		return observer_ptr<W>{p};
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator==(observer_ptr<W1> p1, observer_ptr<W2> p2) {
+	constexpr bool operator==(observer_ptr<W1> p1, observer_ptr<W2> p2) {
 		return p1.get() == p2.get();
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator!=(observer_ptr<W1> p1, observer_ptr<W2> p2) {
+	constexpr bool operator!=(observer_ptr<W1> p1, observer_ptr<W2> p2) {
 		return !(p1 == p2);
 	}
 
 	template <typename W>
-	BOOST_CXX14_CONSTEXPR bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {
+	constexpr bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	BOOST_CXX14_CONSTEXPR bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {
+	constexpr bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return !p;
 	}
 
 	template <typename W>
-	BOOST_CXX14_CONSTEXPR bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
+	constexpr bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
 		return static_cast<bool>(p);
 	}
 
 	template <typename W>
-	BOOST_CXX14_CONSTEXPR bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
+	constexpr bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
 		return static_cast<bool>(p);
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator<(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	constexpr bool operator<(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		// TODO: where W3 is the composite pointer type (C++17 §8) of W1* and W2*.
 		// from N4820:
 		//4 The composite pointer type of two operands p1 and p2 having types T1 and T2, respectively, where at least one is a pointer or pointer-to-member type or std::std::nullptr_t, is:
@@ -135,17 +135,17 @@ namespace boost {
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator>(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	constexpr bool operator>(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return p2 < p1;
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator<=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	constexpr bool operator<=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return !(p2 < p1);
 	}
 
 	template <typename W1, typename W2>
-	BOOST_CXX14_CONSTEXPR bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	constexpr bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return !(p1 < p2);
 	}
 }
