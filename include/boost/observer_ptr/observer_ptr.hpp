@@ -148,6 +148,13 @@ namespace boost {
 	constexpr bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
 		return !(p1 < p2);
 	}
+
+	template <typename T>
+	struct hash<boost::observer_ptr<T>> {
+		BOOST_CXX14_CONSTEXPR auto operator()(const boost::observer_ptr<T>& p) const noexcept -> std::size_t {
+			return std::hash<T*>{}(p.get());
+		}
+	};
 }
 
 namespace std {
@@ -158,7 +165,5 @@ namespace std {
 		}
 	};
 }
-
-//TODO: boost::hash support?
 
 #endif // #ifndef BOOST_OBSERVER_PTR_HPP_INCLUDED
