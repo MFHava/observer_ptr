@@ -21,18 +21,7 @@ add_library(flags INTERFACE)
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	target_compile_options(flags INTERFACE -Wall -Wextra -Wpedantic -Wconversion)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	target_compile_definitions(flags INTERFACE _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS _CRT_SECURE_NO_WARNINGS _SCL_SECURE_NO_WARNINGS _SILENCE_FPOS_SEEKPOS_DEPRECATION_WARNING)
-	target_compile_options(flags INTERFACE
-		/W4 /JMC /MP /permissive- /bigobj
-		/wd4003 # ignore not enough parameters for function macro
-		/wd4456 # ignore local shadowing
-		/wd4457 # ignore function parameter shadowing
-		/wd4458 # ignore class member shadowing
-		/wd4459 # ignore global shadowing
-	)
-	target_link_options(flags INTERFACE
-		/ignore:4099 # ignore mixing struct and class keyword for same type
-	)
+	target_compile_options(flags INTERFACE /W4 /JMC /MP /permissive-)
 endif()
 
 file(GLOB_RECURSE HEADERS "../include/*")
