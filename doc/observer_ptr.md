@@ -3,7 +3,8 @@
 ## Introduction
 
 `observer_ptr<T>` is "... a (not very) smart pointer type that takes no ownership responsibility for its pointees, i.e., for the objects it observes.
-As such, it is intended as a near drop-in replacement for raw pointer types, with the advantage that, as a vocabulary type, it indicates its intended use without need for detailed analysis by code readers." (Walter E. Brown, N3840)
+As such, it is intended as a near drop-in replacement for raw pointer types, with the advantage that, as a vocabulary type, it indicates its intended use without need for detailed analysis by code readers."
+-- <cite>Walter E. Brown, N3840</cite>
 
 An `observer_ptr<T>` stores a pointer to an object of type T, which is called the watched or observed object.
 It may also store `nullptr`, in which case the `observer_ptr<T>` does not point to any object.
