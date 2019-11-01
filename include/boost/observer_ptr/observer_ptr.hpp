@@ -16,12 +16,12 @@
 
 namespace boost {
 	//  TODO: documentation
-	template <typename W>
+	template <typename T>
 	class observer_ptr {
-		using pointer = typename std::add_pointer<W>::type;
-		using reference = typename std::add_lvalue_reference<W>::type;
+		using pointer = typename std::add_pointer<T>::type;
+		using reference = typename std::add_lvalue_reference<T>::type;
 	public:
-		using element_type = W;
+		using element_type = T;
 
 		constexpr observer_ptr() noexcept =default;
 
@@ -29,8 +29,8 @@ namespace boost {
 
 		constexpr explicit observer_ptr(pointer other) noexcept : ptr(other) {}
 
-		template <typename W2, typename = typename std::enable_if<std::is_convertible<W2, W>::value>::type>
-		constexpr observer_ptr(observer_ptr<W2> other) noexcept : ptr(other.get()) {}
+		template <typename T2, typename = typename std::enable_if<std::is_convertible<T2, T>::value>::type>
+		constexpr observer_ptr(observer_ptr<T2> other) noexcept : ptr(other.get()) {}
 
 		constexpr pointer get() const noexcept {
 			return ptr;
@@ -69,52 +69,52 @@ namespace boost {
 		}
 
 	private:
-		W* ptr{nullptr};
+		T* ptr{nullptr};
 	};
 
-	template <typename W>
-	BOOST_CXX14_CONSTEXPR void swap(observer_ptr<W>& p1, observer_ptr<W>& p2) noexcept {
+	template <typename T>
+	BOOST_CXX14_CONSTEXPR void swap(observer_ptr<T>& p1, observer_ptr<T>& p2) noexcept {
 		p1.swap(p2);
 	}
 
-	template <typename W>
-	constexpr observer_ptr<W> make_observer(W* p) noexcept {
-		return observer_ptr<W>{p};
+	template <typename T>
+	constexpr observer_ptr<T> make_observer(T* p) noexcept {
+		return observer_ptr<T>{p};
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator==(observer_ptr<W1> p1, observer_ptr<W2> p2) {
+	template <typename T1, typename T2>
+	constexpr bool operator==(observer_ptr<T1> p1, observer_ptr<T2> p2) {
 		return p1.get() == p2.get();
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator!=(observer_ptr<W1> p1, observer_ptr<W2> p2) {
+	template <typename T1, typename T2>
+	constexpr bool operator!=(observer_ptr<T1> p1, observer_ptr<T2> p2) {
 		return !(p1 == p2);
 	}
 
-	template <typename W>
-	constexpr bool operator==(observer_ptr<W> p, std::nullptr_t) noexcept {
+	template <typename T>
+	constexpr bool operator==(observer_ptr<T> p, std::nullptr_t) noexcept {
 		return !p;
 	}
 
-	template <typename W>
-	constexpr bool operator==(std::nullptr_t, observer_ptr<W> p) noexcept {
+	template <typename T>
+	constexpr bool operator==(std::nullptr_t, observer_ptr<T> p) noexcept {
 		return !p;
 	}
 
-	template <typename W>
-	constexpr bool operator!=(observer_ptr<W> p, std::nullptr_t) noexcept {
+	template <typename T>
+	constexpr bool operator!=(observer_ptr<T> p, std::nullptr_t) noexcept {
 		return static_cast<bool>(p);
 	}
 
-	template <typename W>
-	constexpr bool operator!=(std::nullptr_t, observer_ptr<W> p) noexcept {
+	template <typename T>
+	constexpr bool operator!=(std::nullptr_t, observer_ptr<T> p) noexcept {
 		return static_cast<bool>(p);
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator<(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
-		// TODO: where W3 is the composite pointer type (C++17 §8) of W1* and W2*.
+	template <typename T1, typename T2>
+	constexpr bool operator<(observer_ptr<T1> p1, observer_ptr<T2> p2) noexcept {
+		// TODO: where W3 is the composite pointer type (C++17 §8) of T1* and T2*.
 		// from N4820:
 		//4 The composite pointer type of two operands p1 and p2 having types T1 and T2, respectively, where at least one is a pointer or pointer-to-member type or std::std::nullptr_t, is:
 		//(4.1) - if both p1 and p2 are null pointer constants, std::std::nullptr_t;
@@ -128,24 +128,24 @@ namespace boost {
 		//(4.9) - otherwise, a program that necessitates the determination of a composite pointer type is ill-formed.
 
 		using W3 = typename std::common_type<
-			typename std::add_pointer<W1>::type,
-			typename std::add_pointer<W2>::type
+			typename std::add_pointer<T1>::type,
+			typename std::add_pointer<T2>::type
 		>::type;
 		return std::less<W3>{}(p1.get(), p2.get());
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator>(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	template <typename T1, typename T2>
+	constexpr bool operator>(observer_ptr<T1> p1, observer_ptr<T2> p2) noexcept {
 		return p2 < p1;
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator<=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	template <typename T1, typename T2>
+	constexpr bool operator<=(observer_ptr<T1> p1, observer_ptr<T2> p2) noexcept {
 		return !(p2 < p1);
 	}
 
-	template <typename W1, typename W2>
-	constexpr bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2) noexcept {
+	template <typename T1, typename T2>
+	constexpr bool operator>=(observer_ptr<T1> p1, observer_ptr<T2> p2) noexcept {
 		return !(p1 < p2);
 	}
 
