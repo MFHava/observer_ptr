@@ -1,7 +1,11 @@
 language: cpp
+dist: bionic
+addons:
+  apt:
+    packages: libboost-test-dev
 script:
   - mkdir build
   - cd build
   - cmake ../CMake
   - make -j4
-  - bin/test
+  - bin/tests
