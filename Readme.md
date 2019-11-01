@@ -12,3 +12,5 @@ Released under the Boost Software License - Version 1.0, see "LICENSE_1_0.txt" f
 
 This library and documentation is largly taken from the Working Draft, C++ Extensions for Library Fundamentals, Version 3 ([N4806](http://wg21.link/N4806).)
 The original design of `observer_ptr<T>` was proposed by Walter E. Brown ([N3840](wg21.link/n3840)).
+
+[![Build Status](https://travis-ci.org/MFHava/observer_ptr.svg?branch=master)](https://travis-ci.org/MFHava/observer_ptr)
