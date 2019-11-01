@@ -2,21 +2,25 @@
 
 ## Introduction
 
-TODO
+`observer_ptr<T>` is "... a (not very) smart pointer type that takes no ownership responsibility for its pointees, i.e., for the objects it observes.
+As such, it is intended as a near drop-in replacement for raw pointer types, with the advantage that, as a vocabulary type, it indicates its intended use without need for detailed analysis by code readers." (Walter E. Brown, N3840)
 
-This library and documentation is largly taken from the Working Draft, C++ Extensions for Library Fundamentals, Version 3 (N4806](http://wg21.link/N4806).
+An `observer_ptr<T>` stores a pointer to an object of type T, which is called the watched or observed object.
+It may also store `nullptr`, in which case the `observer_ptr<T>` does not point to any object.
+By design, `observer_ptr<T>` is a non-owning pointer.
+As such it does not manage the lifetime of its observed object (and vice-versa).
+Therefore, when an `observer_ptr<T>` object is destroyed, the watched object will not be destroyed/deleted (unlike `unique_ptr<T>` or `shared_ptr<T>`).
+Otherwise, if the watched object is destroyed, all remaining instances of `observer_ptr<T>` pointing to this object dangle and dereferencing them is undefined behavior.
 
-A non-owning pointer, known as an observer, is an object o that stores a pointer to a second object, w.
-In this context, w is known as a watched object.
-[ Note: There is no watched object when the stored pointer is `nullptr`. — end note ]
-An observer takes no responsibility or ownership of any kind for its watched object, if any;
-in particular, there is no inherent relationship between the lifetimes of o and w.
+The intended usage of `observer_ptr<T>` is as a vocabulary type.
+It is a drop-in replacement for a `T*`, but indicates more clearly to the reader of the code that this pointer does not take ownership of its pointee.
+
+A common usecase for `observer_ptr<T>` is during refactorings of old code bases, where the use of `T*` does not indicate wether the pointer owns its T or not.
+While owning pointers should be replaced by `unique_ptr<T>` or `shared_ptr<T>`, non-owning pointers can be explicitely marked by declaring them as `observer_ptr<T>`.
+Eventually, once a code base is fully refactored, the meaning of `T*` can be established as a non-owning pointer and `observer_ptr<T>` can be replaced again by a simple `T*`.
 
 Specializations of `observer_ptr` shall meet the requirements of a `CopyConstructible` and `CopyAssignable` type.
 The template parameter W of an `observer_ptr` shall not be a reference type, but may be an incomplete type.
-
-[ Note: The uses of `observer_ptr` include clarity of interface specification in new code, and interoperability with pointer-based legacy code. — end note ]
-
 
 ## Synopsis
 
@@ -97,7 +101,7 @@ namespace std {
 } // namespace std
 ```
 
-## constructors
+## Constructors
 
 ```C++
 constexpr observer_ptr() noexcept;
@@ -122,7 +126,7 @@ Postconditions: `get() == other.get()`.
 
 Remarks: This constructor shall not participate in overload resolution unless `W2*` is convertible to `W*`.
 
-## observers
+## Observers
 
 ```C++
 constexpr pointer get() const noexcept;
@@ -152,7 +156,7 @@ constexpr explicit operator bool() const noexcept;
 
 Returns: `get() != nullptr`.
 
-## conversions
+## Conversions
 
 ```C++
 constexpr explicit operator pointer() const noexcept;
@@ -161,7 +165,7 @@ constexpr explicit operator pointer() const noexcept;
 Returns: `get()`.
 
 
-## modifiers
+## Modifiers
 
 ```C++
 constexpr pointer release() noexcept;
@@ -184,7 +188,7 @@ constexpr void swap(observer_ptr& other) noexcept;
 Effects: Invokes swap on the stored pointers of `*this` and other.
 
 
-## specialized algorithms
+## Specialized algorithms
 
 ```C++
 template <class W>
@@ -260,12 +264,12 @@ bool operator>=(observer_ptr<W1> p1, observer_ptr<W2> p2);
 Returns: `not (p1 < p2)`.
 
 
-## boost::hash support
+## Support for boost::hash
 ```C++
 template <class T> struct hash<observer_ptr<T>>;
 ```
 
-## std::hash support
+## Support for std::hash
 ```C++
 namespace std {
 	template <class T> struct hash<boost::observer_ptr<T>>;
@@ -273,3 +277,8 @@ namespace std {
 ```
 
 The template specialization shall meet the requirements of class template `std::hash` (C++17 §23.14.15). For an object `p` of type `boost::observer_ptr<T>`, `std::hash<boost::observer_ptr<T>>()(p)` shall evaluate to the same value as `std::hash<T*>()(p.get())`.
+
+## Credit
+
+This library and documentation is largly taken from the Working Draft, C++ Extensions for Library Fundamentals, Version 3 ([N4806](http://wg21.link/N4806).)
+The original design of `observer_ptr<T>` was proposed by Walter E. Brown ([N3840](wg21.link/n3840)).
